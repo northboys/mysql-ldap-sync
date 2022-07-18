@@ -1,0 +1,10 @@
+Dockerfile*
+dockerfile*
+docker-compose*
+.dockerignore
+.git
+.github
+.gitignore
+.vscode
+.cache/*
+.env
