@@ -1,2 +1,10 @@
 # mysql-ldap-sync
-LDAP attribute MySQL syncher 
+This script provides a way to synchronize your LDAP users, with custom attribute into mysql. it base on bash script to execution mysql query.
+
+## Installation
+
+
+## Setup
+
+
+## Usage
