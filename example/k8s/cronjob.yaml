@@ -1,0 +1,40 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: ldap-mysql-cron
+  namespace: mit-id-ldap-system
+spec:
+  schedule: "*/1 * * * *"
+  concurrencyPolicy: "Forbid"
+  failedJobsHistoryLimit: 10
+  startingDeadlineSeconds: 600 # 10 min
+  jobTemplate:
+    spec:
+      backoffLimit: 6
+      activeDeadlineSeconds: 3300 # 55min
+      template:
+        spec:
+          containers:
+            - name: ldap-sync
+              image: izalul/mysql-ldap-sync:v0.1-alpine
+              imagePullPolicy: Always
+              env:
+              - name: MYSQL_USER
+                value: "root"
+              - name: MYSQL_PASS
+                value: "superroot"
+              - name: MYSQL_HOST
+                value: "172.16.20.14"
+              - name: MYSQL_PORT
+                value: "3306"
+              - name: LDAP_USER
+                value: "uid=admin,cn=users,dc=mit,dc=id"
+              - name: LDAP_HOST
+                value: "172.16.20.209"
+              - name: KAFKA_CLUSTERS_0_ZOOKEEPER
+                value: "10.40.70.142:22181"
+              - name: LDAP_PASS
+                value: "mit123"
+              - name: LDAP_PORT
+                value: "30083"
+          restartPolicy: Never
